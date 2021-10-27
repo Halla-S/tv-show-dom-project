@@ -1,3 +1,4 @@
+
 //You can edit ALL of the code here
 function setup() {
   const allEpisodes = getAllEpisodes();
@@ -23,10 +24,10 @@ function makePageForEpisodes(episodeList) {
     const option = document.createElement("option");
     if (episode.number < 10) {
       option.value = `${episode.name}`;
-      option.innerText = `S0${episode.season}E0${episode.number}-${episode.name}`;
+      option.innerText = `S0${episode.season}E0${episode.number} - ${episode.name}`;
     } else {
       option.value = `${episode.name}`;
-      option.innerText = `S0${episode.season}E${episode.number}-${episode.name}`;
+      option.innerText = `S0${episode.season}E${episode.number} - ${episode.name}`;
     }
 
     const container = document.createElement("div");
@@ -65,6 +66,7 @@ function makePageForEpisodes(episodeList) {
     select.appendChild(option);
     rootElem.appendChild(divCont);
     divCont.appendChild(container);
+
     container.appendChild(firstDiv);
     container.appendChild(secondDiv);
     container.appendChild(thirdDiv);
@@ -72,28 +74,41 @@ function makePageForEpisodes(episodeList) {
     secondDiv.appendChild(img);
     thirdDiv.appendChild(p);
   });
+  console.log(container);
 
   searchbar.addEventListener("keyup", (e) => {
     const searchTerm = e.target.value.toUpperCase();
-    const filter = episodeList.filter((episode) => {
+    const filter = episodeList.filter((episode1) => {
       return (
-        episode.name.toUpperCase().includes(searchTerm) ||
-        episode.summary.toUpperCase().includes(searchTerm)
+        episode1.name.toUpperCase().includes(searchTerm) ||
+        episode1.summary.toUpperCase().includes(searchTerm)
       );
     });
-
-    h6.innerText = `Display ${filter.length}/73 episodes`;
-
     console.log(filter);
+    h6.innerText = `Display ${filter.length}/73 episodes`;
+    Array.from(container).forEach((episode) => {
+      console.log();
+      if (
+        !episode.lastChild.innerText.toUpperCase().includes(searchTerm) &
+        !episode.firstChild.innerText.toUpperCase().includes(searchTerm)
+      ) {
+        episode.style.display = "none";
+      }
+    });
   });
 
   select.addEventListener("click", selectEpisode);
-  function selectEpisode() {
-    let pp = episodeList.filter((episode) => {
-      return episode.name === select.value;
+  function selectEpisode(e) {
+    Array.from(container).forEach((episode) => {
+      let inner = episode.firstChild.innerText.toUpperCase();
+      console.log(inner.split("-").splice(0, 1).join(""));
+      console.log(select.value.toUpperCase());
+      if (
+        e.target.value.toUpperCase() !== inner.split("-").splice(0, 1).join("")
+      ) {
+        episode.style.display = "none";
+      }
     });
-
-    console.log(pp);
   }
 }
 
