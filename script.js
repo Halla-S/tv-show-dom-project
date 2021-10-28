@@ -16,6 +16,9 @@ searchbar.name = "searchbar";
 searchbar.placeholder = "search";
 const select = document.createElement("select");
 const h6 = document.createElement("h6");
+const showAllOption = document.createElement("option");
+showAllOption.value = "Show all episodes";
+showAllOption.innerText = "Show all episodes";
 
 function makePageForEpisodes(episodeList) {
   console.log(episodeList.length);
@@ -63,6 +66,7 @@ function makePageForEpisodes(episodeList) {
     //rootElem.appendChild(h6)
     //rootElem.appendChild(select);
     select.appendChild(option);
+    select.appendChild(showAllOption);
     rootElem.appendChild(divCont);
     divCont.appendChild(container);
 
@@ -105,7 +109,9 @@ function makePageForEpisodes(episodeList) {
       console.log(inner.split("-").splice(0, 1).join(""));
       console.log(select.value.toUpperCase());
       if (
-        e.target.value.toUpperCase() !== inner.split("-").splice(0, 1).join("")
+        (e.target.value.toUpperCase() !==
+          inner.split("-").splice(0, 1).join("")) &
+        (e.target.value !== "Show all episodes")
       ) {
         episode.style.display = "none";
       } else {
