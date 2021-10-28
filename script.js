@@ -1,4 +1,3 @@
-
 //You can edit ALL of the code here
 function setup() {
   const allEpisodes = getAllEpisodes();
@@ -93,6 +92,8 @@ function makePageForEpisodes(episodeList) {
         !episode.firstChild.innerText.toUpperCase().includes(searchTerm)
       ) {
         episode.style.display = "none";
+      } else {
+        episode.style.display = "block";
       }
     });
   });
@@ -107,6 +108,8 @@ function makePageForEpisodes(episodeList) {
         e.target.value.toUpperCase() !== inner.split("-").splice(0, 1).join("")
       ) {
         episode.style.display = "none";
+      } else {
+        episode.style.display = "block";
       }
     });
   }
