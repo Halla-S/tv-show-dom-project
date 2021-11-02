@@ -38,6 +38,7 @@ select.appendChild(showAllOption);
 
 
 
+
 function makePageForEpisodes(id) {
   
   fetch("https://api.tvmaze.com/shows/" + id + "/episodes")
@@ -87,6 +88,7 @@ function makePageForEpisodes(id) {
 
         rootElem.appendChild(divCont);
         divCont.appendChild(container);
+        
         
 
         container.appendChild(firstDiv);
@@ -154,6 +156,8 @@ function showList(listOfshows) {
 }
 selectShow.addEventListener("click", changeShow);
 function changeShow(e) {
+  select.innerHTML ="";
+  searchbar.innerHTML="";
   makePageForEpisodes(e.target.value);
   console.log(e.target.value);
 }
