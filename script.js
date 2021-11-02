@@ -1,9 +1,10 @@
 //You can edit ALL of the code here
 
 function setup() {
+  
+  makePageForEpisodes(2);
   let shows = getAllShows();
   showList(shows);
-  makePageForEpisodes(2);
   
 }
 
@@ -31,10 +32,6 @@ searchSelectDiv.appendChild(h6);
 searchSelectDiv.appendChild(select);
 searchSelectDiv.appendChild(selectShow);
 selectShow.appendChild(showOption);
-const showAllOption = document.createElement("option");
-showAllOption.value = "Show all episodes";
-showAllOption.innerText = "Show all episodes";
-select.appendChild(showAllOption);
 
 
 
@@ -89,7 +86,6 @@ function makePageForEpisodes(id) {
         rootElem.appendChild(divCont);
         divCont.appendChild(container);
         
-        
 
         container.appendChild(firstDiv);
         container.appendChild(secondDiv);
@@ -136,12 +132,16 @@ function makePageForEpisodes(id) {
             (e.target.value !== "Show all episodes")
           ) {
             episode.style.display = "none";
-          } else {
+          } else{
             episode.style.display = "block";
           }
         });
       }
     });
+    const showAllOption = document.createElement("option");
+    showAllOption.value = "Show all episodes";
+    showAllOption.innerText = "Show all episodes";
+    select.appendChild(showAllOption);
 }
 function showList(listOfshows) {
   listOfshows.forEach((oneShow) => {
@@ -156,9 +156,11 @@ function showList(listOfshows) {
 }
 selectShow.addEventListener("click", changeShow);
 function changeShow(e) {
-  select.innerHTML ="";
-  searchbar.innerHTML="";
+  select.innerHTML = "";
+  divCont.innerHTML = "";
+
   makePageForEpisodes(e.target.value);
+  
   console.log(e.target.value);
 }
 
