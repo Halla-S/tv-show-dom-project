@@ -1,43 +1,31 @@
 //You can edit ALL of the code here
 
 function setup() {
-  
-  makePageForEpisodes(2);
+  makePageForEpisodes(82);
   let shows = getAllShows();
   showList(shows);
-  
 }
 
-  
 const rootElem = document.getElementById("root");
-const divCont = document.createElement("div");
-divCont.id = "divCont";
-const searchSelectDiv = document.createElement("div");
-searchSelectDiv.id = "searchSelect";
-
+const divCont = document.getElementById("divCont");
 const searchbar = document.createElement("input");
 searchbar.id = "searchbar";
+searchbar.placeholder = "search";
 searchbar.type = "text";
 searchbar.name = "searchbar";
-searchbar.placeholder = "search";
 const select = document.createElement("select");
 const selectShow = document.createElement("select");
 const showOption = document.createElement("option");
 showOption.innerText = "select a show";
-
 const h6 = document.createElement("h6");
-rootElem.appendChild(searchSelectDiv);
+const searchSelectDiv = document.getElementById("searchSelect");
 searchSelectDiv.appendChild(searchbar);
 searchSelectDiv.appendChild(h6);
 searchSelectDiv.appendChild(select);
 searchSelectDiv.appendChild(selectShow);
 selectShow.appendChild(showOption);
 
-
-
-
 function makePageForEpisodes(id) {
-  
   fetch("https://api.tvmaze.com/shows/" + id + "/episodes")
     .then(function (response) {
       if (response.ok) {
@@ -47,31 +35,31 @@ function makePageForEpisodes(id) {
     })
     .then(function (episodelist) {
       episodelist.forEach((episode) => {
-        const option = document.createElement("option");
-        if (episode.number < 10) {
-          option.value = `${episode.name}`;
-          option.innerText = `S0${episode.season}E0${episode.number} - ${episode.name}`;
+        let seasonNum = "";
+        if (episode.season < 10) {
+          seasonNum = `S0${episode.season}`;
         } else {
-          option.value = `${episode.name}`;
-          option.innerText = `S0${episode.season}E${episode.number} - ${episode.name}`;
+          seasonNum = `S${episode.season}`;
+        }
+        let episodeNum = "";
+        if (episode.number < 10) {
+          episodeNum = `E0${episode.number}`;
+        } else {
+          episodeNum = `E${episode.number}`;
         }
 
+        const option = document.createElement("option");
+
+        option.value = `${episode.name}`;
+        option.innerText = `${seasonNum}${episodeNum} - ${episode.name}`;
+
         const container = document.createElement("div");
+
         container.setAttribute("id", "container");
-        const firstDiv = document.createElement("div");
-        firstDiv.setAttribute("id", "firstDiv");
-        const secondDiv = document.createElement("div");
-        secondDiv.setAttribute("id", "secondDiv");
-        const thirdDiv = document.createElement("div");
-        thirdDiv.setAttribute("id", "thirdDiv");
 
         const h5 = document.createElement("h5");
 
-        if (episode.number < 10) {
-          h5.innerText = `${episode.name}-S0${episode.season}E0${episode.number}`;
-        } else {
-          h5.innerText = `${episode.name}-S0${episode.season}E${episode.number}`;
-        }
+        h5.innerText = `${episode.name}-${seasonNum}${episodeNum}`;
 
         const img = document.createElement("img");
 
@@ -83,17 +71,14 @@ function makePageForEpisodes(id) {
 
         select.appendChild(option);
 
-        rootElem.appendChild(divCont);
         divCont.appendChild(container);
-        
 
-        container.appendChild(firstDiv);
-        container.appendChild(secondDiv);
-        container.appendChild(thirdDiv);
-        firstDiv.appendChild(h5);
-        secondDiv.appendChild(img);
-        thirdDiv.appendChild(p);
-        //console.log(episodelist);
+        container.appendChild(h5);
+        container.appendChild(img);
+        container.appendChild(p);
+
+        console.log(container);
+        console.log(typeof container);
       });
 
       searchbar.addEventListener("keyup", (e) => {
@@ -104,10 +89,9 @@ function makePageForEpisodes(id) {
             episode1.summary.toUpperCase().includes(searchTerm)
           );
         });
-        console.log(filter);
+
         h6.innerText = `Display ${filter.length}/${episodelist.length} episodes`;
         Array.from(container).forEach((episode) => {
-          console.log();
           if (
             !episode.lastChild.innerText.toUpperCase().includes(searchTerm) &
             !episode.firstChild.innerText.toUpperCase().includes(searchTerm)
@@ -121,37 +105,34 @@ function makePageForEpisodes(id) {
 
       select.addEventListener("click", selectEpisode);
       function selectEpisode(e) {
-         
         Array.from(container).forEach((episode) => {
           let inner = episode.firstChild.innerText.toUpperCase();
-          console.log(inner.split("-").splice(0, 1).join(""));
-          console.log(select.value.toUpperCase());
+
           if (
             (e.target.value.toUpperCase() !==
               inner.split("-").splice(0, 1).join("")) &
             (e.target.value !== "Show all episodes")
           ) {
             episode.style.display = "none";
-          } else{
+          } else {
             episode.style.display = "block";
           }
         });
       }
     });
-    const showAllOption = document.createElement("option");
-    showAllOption.value = "Show all episodes";
-    showAllOption.innerText = "Show all episodes";
-    select.appendChild(showAllOption);
+
+  const showAllOption = document.createElement("option");
+  showAllOption.value = "Show all episodes";
+  showAllOption.innerText = "Show all episodes";
+  select.appendChild(showAllOption);
 }
 function showList(listOfshows) {
+  listOfshows.sort((a, b) => a.name.localeCompare(b.name));
   listOfshows.forEach((oneShow) => {
     const showoption = document.createElement("option");
     selectShow.appendChild(showoption);
     showoption.innerHTML = oneShow.name;
-    //console.log(showOption.innerText);
-    //showOption.id = oneShow.id;
     showoption.value = oneShow.id;
-    console.log(showoption.value);
   });
 }
 selectShow.addEventListener("click", changeShow);
@@ -160,9 +141,6 @@ function changeShow(e) {
   divCont.innerHTML = "";
 
   makePageForEpisodes(e.target.value);
-  
-  console.log(e.target.value);
 }
-
 
 window.onload = setup;

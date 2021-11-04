@@ -22,7 +22,7 @@ body{
 #container {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   align-items: center;
   margin-top: 5%;
   background-color: white;
@@ -63,4 +63,11 @@ h6{
   padding-top: 0em;
   margin-top : 0em;
   display: block;
+}
+h5{
+  text-align: center;
+}
+p{
+  text-align: justify;
+  margin: 1em 1em;
 }
