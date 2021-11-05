@@ -34,6 +34,7 @@ function makePageForEpisodes(id) {
       throw `${response.status} ${response.statusText}`;
     })
     .then(function (episodelist) {
+      h6.innerText = `Display ${episodelist.length} /${episodelist.length} episodes`;
       episodelist.forEach((episode) => {
         let seasonNum = "";
         if (episode.season < 10) {
@@ -67,7 +68,7 @@ function makePageForEpisodes(id) {
 
         const p = document.createElement("p");
 
-        p.innerText = episode.summary.replace("<p>", "").replace("</p>", "");
+        p.innerText = episode.summary.replace(/<p>/g, "").replace(/<\/p>/g, "");
 
         select.appendChild(option);
 
@@ -139,7 +140,6 @@ selectShow.addEventListener("click", changeShow);
 function changeShow(e) {
   select.innerHTML = "";
   divCont.innerHTML = "";
-
   makePageForEpisodes(e.target.value);
 }
 
