@@ -34,6 +34,7 @@ img {
   display:  flex;
   justify-content: space-around;
   margin-top: 2em;
+  font-size: large;
 }
 #searchbar{
   height: 1.5em;
