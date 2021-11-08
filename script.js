@@ -183,7 +183,7 @@ function makeShowPge() {
     const oneShowCont = document.createElement("div");
     oneShowCont.id = "oneShowCont";
     showsContainer.appendChild(oneShowCont);
-    const showName = document.createElement("h5");
+    const showName = document.createElement("a");
     oneShowCont.appendChild(showName);
     const showImg = document.createElement("img");
     oneShowCont.appendChild(showImg);
