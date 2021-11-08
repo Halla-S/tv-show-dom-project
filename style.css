@@ -61,3 +61,21 @@ p{
   margin: 1em 1em;
   font-size: medium;
 }
+#showsContainer{
+  display: flex;
+  flex-direction: column;
+}
+#oneShowCont{
+  display: flex;
+  flex-direction: column;
+  width:80%;
+  align-items: center;
+}
+#image{
+  width : 30%;
+
+}
+#p{
+  width:30%;
+}
+

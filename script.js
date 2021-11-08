@@ -4,28 +4,41 @@ function setup() {
   makePageForEpisodes(82);
   let shows = getAllShows();
   showList(shows);
+  goto.remove();
 }
 
 const rootElem = document.getElementById("root");
 const divCont = document.getElementById("divCont");
+
+const selectShow = document.createElement("select");
+const showOption1 = document.createElement("option");
+showOption1.innerText = "select a show";
+const h6 = document.createElement("h6");
+const searchSelectDiv = document.getElementById("searchSelect");
+
+searchSelectDiv.appendChild(h6);
+
+searchSelectDiv.appendChild(selectShow);
+selectShow.appendChild(showOption1);
+const select = document.createElement("select");
+select.placeholder = "select";
+const goto = document.createElement("a");
+goto.innerText = "Go to shows";
+goto.href = "#";
+goto.style.textDecoration = "none";
 const searchbar = document.createElement("input");
 searchbar.id = "searchbar";
 searchbar.placeholder = "search";
 searchbar.type = "text";
 searchbar.name = "searchbar";
-const select = document.createElement("select");
-const selectShow = document.createElement("select");
-const showOption = document.createElement("option");
-showOption.innerText = "select a show";
-const h6 = document.createElement("h6");
-const searchSelectDiv = document.getElementById("searchSelect");
-searchSelectDiv.appendChild(searchbar);
-searchSelectDiv.appendChild(h6);
-searchSelectDiv.appendChild(select);
-searchSelectDiv.appendChild(selectShow);
-selectShow.appendChild(showOption);
 
 function makePageForEpisodes(id) {
+  searchSelectDiv.appendChild(goto);
+
+  searchSelectDiv.appendChild(select);
+
+  searchSelectDiv.appendChild(searchbar);
+
   fetch("https://api.tvmaze.com/shows/" + id + "/episodes")
     .then(function (response) {
       if (response.ok) {
@@ -63,12 +76,16 @@ function makePageForEpisodes(id) {
         h5.innerText = `${episode.name}-${seasonNum}${episodeNum}`;
 
         const img = document.createElement("img");
-
-        img.src = episode.image.original;
+        if (episode.image !== null) {
+          img.src = episode.image.original;
+        }
 
         const p = document.createElement("p");
-
-        p.innerText = episode.summary.replace(/<p>/g, "").replace(/<\/p>/g, "");
+        if (episode.summary !== null) {
+          p.innerText = episode.summary
+            .replace(/<p>/g, "")
+            .replace(/<\/p>/g, "");
+        }
 
         select.appendChild(option);
 
@@ -85,10 +102,12 @@ function makePageForEpisodes(id) {
       searchbar.addEventListener("keyup", (e) => {
         const searchTerm = e.target.value.toUpperCase();
         const filter = episodelist.filter((episode1) => {
-          return (
-            episode1.name.toUpperCase().includes(searchTerm) ||
-            episode1.summary.toUpperCase().includes(searchTerm)
-          );
+          if (episode1.summary !== null) {
+            return (
+              episode1.name.toUpperCase().includes(searchTerm) ||
+              episode1.summary.toUpperCase().includes(searchTerm)
+            );
+          }
         });
 
         h6.innerText = `Display ${filter.length}/${episodelist.length} episodes`;
@@ -99,7 +118,7 @@ function makePageForEpisodes(id) {
           ) {
             episode.style.display = "none";
           } else {
-            episode.style.display = "block";
+            episode.style.display = "flex";
           }
         });
       });
@@ -116,11 +135,18 @@ function makePageForEpisodes(id) {
           ) {
             episode.style.display = "none";
           } else {
-            episode.style.display = "block";
+            episode.style.display = "flex";
           }
         });
+        //goto.remove();
       }
     });
+  goto.addEventListener("click", goToShows);
+  function goToShows(e) {
+    divCont.innerHTML = "";
+    searchSelectDiv.style.display = "none";
+    makeShowPge();
+  }
 
   const showAllOption = document.createElement("option");
   showAllOption.value = "Show all episodes";
@@ -138,9 +164,53 @@ function showList(listOfshows) {
 }
 selectShow.addEventListener("click", changeShow);
 function changeShow(e) {
-  select.innerHTML = "";
-  divCont.innerHTML = "";
-  makePageForEpisodes(e.target.value);
+  if (e.target.innerText !== "select a show") {
+    select.innerHTML = "";
+    divCont.innerHTML = "";
+    //searchbar.remove();
+
+    makePageForEpisodes(e.target.value);
+  }
+  if (e.target.innerText === "select a show") {
+    makePageForEpisodes(e.target.value);
+  }
 }
 
-window.onload = setup;
+function makeShowPge() {
+  const showsContainer = document.getElementById("showsContainer");
+  let showList = getAllShows();
+  showList.forEach((show) => {
+    const oneShowCont = document.createElement("div");
+    oneShowCont.id = "oneShowCont";
+    showsContainer.appendChild(oneShowCont);
+    const showName = document.createElement("h5");
+    oneShowCont.appendChild(showName);
+    const showImg = document.createElement("img");
+    oneShowCont.appendChild(showImg);
+    const showP = document.createElement("p");
+    oneShowCont.appendChild(showP);
+    if (show.image !== null) {
+      showImg.src = show.image.original;
+    }
+    showImg.id = "image";
+    showP.innerText = show.summary;
+    showP.id = "p";
+    showName.innerText = show.name;
+    showName.id = show.id;
+    showName.href = "#";
+    //console.log(showName.id);
+    searchSelectDiv.style.display = "none";
+    //let cc= show.id;
+
+    showName.addEventListener("click", getEpisodes);
+    function getEpisodes(e) {
+      showsContainer.innerHTML = "";
+      divCont.style.display = "flex";
+
+      searchSelectDiv.style.display = "flex";
+      makePageForEpisodes(e.target.id);
+      searchSelectDiv.children[3].innerHTML = "";
+    }
+  });
+}
+window.onload = setup();
