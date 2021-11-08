@@ -48,6 +48,10 @@ function makePageForEpisodes(id) {
     })
     .then(function (episodelist) {
       h6.innerText = `Display ${episodelist.length} /${episodelist.length} episodes`;
+      const showAllOption = document.createElement("option");
+      showAllOption.value = "Show all episodes";
+      showAllOption.innerText = "Show all episodes";
+      select.appendChild(showAllOption);
       episodelist.forEach((episode) => {
         let seasonNum = "";
         if (episode.season < 10) {
@@ -147,11 +151,6 @@ function makePageForEpisodes(id) {
     searchSelectDiv.style.display = "none";
     makeShowPge();
   }
-
-  const showAllOption = document.createElement("option");
-  showAllOption.value = "Show all episodes";
-  showAllOption.innerText = "Show all episodes";
-  select.appendChild(showAllOption);
 }
 function showList(listOfshows) {
   listOfshows.sort((a, b) => a.name.localeCompare(b.name));
@@ -210,6 +209,7 @@ function makeShowPge() {
       searchSelectDiv.style.display = "flex";
       makePageForEpisodes(e.target.id);
       searchSelectDiv.children[3].innerHTML = "";
+      selectShow.style.display="none";
     }
   });
 }
