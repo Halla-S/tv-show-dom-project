@@ -213,4 +213,4 @@ function makeShowPge() {
     }
   });
 }
-window.onload = setup();
+window.onload = makeShowPge();
