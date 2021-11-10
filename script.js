@@ -158,9 +158,13 @@ function makePageForEpisodes(id) {
     divCont.innerHTML = "";
     searchSelectDiv.style.display = "none";
     searchSelectShows.style.display = "flex";
+    console.log(searchSelectShows);
+    //searchSelectShows.innerHTML ="";
     console.log(showsContainer);
     showsContainer.innerHTML = "";
+    searchSelectShows.children[1].innerHTML = "";
     makeShowPge();
+    
   }
 }
 function showList(listOfshows) {
@@ -189,6 +193,13 @@ function makeShowPge() {
 
   let showSearchBar = document.getElementById("showsSearchBar");
   let showsSelection = document.getElementById("selectShow");
+  let SelectAShow = document.createElement("option");
+  showsSelection.appendChild(SelectAShow);
+  SelectAShow.innerText ="Select a Show";
+  SelectAShow.value ="showAll";
+
+  
+
   let hShows = document.getElementById("hShows");
   hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
   
@@ -273,17 +284,16 @@ function makeShowPge() {
 
       if (
         (e.target.value.toUpperCase() !== innerT) &
-        (e.target.value !== "default")
+        (e.target.value !== "showAll")
       ) {
         show.style.display = "none";
       } else {
         show.style.display = "flex";
       }
-      if(e.target.value==="default"){
+      if (e.target.value === "showAll") {
         //hShows.display = "block";
         hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
-      }
-      else{
+      } else {
         hShows.innerHTML = "";
       }
     });
