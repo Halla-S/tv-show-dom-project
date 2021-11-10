@@ -15,6 +15,7 @@ const showOption1 = document.createElement("option");
 showOption1.innerText = "select a show";
 const h6 = document.createElement("h6");
 const searchSelectDiv = document.getElementById("searchSelect");
+const searchSelectShows = document.getElementById("searchSelect2");
 
 searchSelectDiv.appendChild(h6);
 
@@ -68,7 +69,7 @@ function makePageForEpisodes(id) {
 
         const option = document.createElement("option");
 
-        option.value = `${episode.name}`;
+        option.value = `${seasonNum}${episodeNum}`;
         option.innerText = `${seasonNum}${episodeNum} - ${episode.name}`;
 
         const container = document.createElement("div");
@@ -99,12 +100,12 @@ function makePageForEpisodes(id) {
         container.appendChild(img);
         container.appendChild(p);
 
-        console.log(container);
-        console.log(typeof container);
+        //console.log(container);
+        //console.log(typeof container);
       });
 
       searchbar.addEventListener("keyup", (e) => {
-        const searchTerm = e.target.value.toUpperCase();
+        const searchTerm = e.target.value.toUpperCase().trim();
         const filter = episodelist.filter((episode1) => {
           if (episode1.summary !== null) {
             return (
@@ -131,10 +132,11 @@ function makePageForEpisodes(id) {
       function selectEpisode(e) {
         Array.from(container).forEach((episode) => {
           let inner = episode.firstChild.innerText.toUpperCase();
+          console.log(inner);
+          console.log(e.target.value.toUpperCase());
 
           if (
-            (e.target.value.toUpperCase() !==
-              inner.split("-").splice(0, 1).join("")) &
+            !inner.includes(e.target.value.toUpperCase()) &
             (e.target.value !== "Show all episodes")
           ) {
             episode.style.display = "none";
@@ -142,13 +144,17 @@ function makePageForEpisodes(id) {
             episode.style.display = "flex";
           }
         });
-        //goto.remove();
+        h6.innerHTML="";
       }
     });
+
   goto.addEventListener("click", goToShows);
   function goToShows(e) {
     divCont.innerHTML = "";
     searchSelectDiv.style.display = "none";
+    searchSelectShows.style.display = "flex";
+    console.log(showsContainer);
+    showsContainer.innerHTML = "";
     makeShowPge();
   }
 }
@@ -166,19 +172,28 @@ function changeShow(e) {
   if (e.target.innerText !== "select a show") {
     select.innerHTML = "";
     divCont.innerHTML = "";
-    //searchbar.remove();
-
     makePageForEpisodes(e.target.value);
   }
   if (e.target.innerText === "select a show") {
     makePageForEpisodes(e.target.value);
   }
-}
 
+  
+}
+const showsContainer = document.getElementById("showsContainer");
+let showsList = getAllShows();
 function makeShowPge() {
-  const showsContainer = document.getElementById("showsContainer");
-  let showList = getAllShows();
-  showList.forEach((show) => {
+  let showSearchBar = document.getElementById("showsSearchBar");
+  let showsSelection = document.getElementById("selectShow");
+  let defaultSelect = document.getElementById("default");
+  showsList.sort((a, b) => a.name.localeCompare(b.name));
+  showsList.forEach((show) => {
+    const optionForShow = document.createElement("option");
+
+    optionForShow.value = `${show.name}`;
+    optionForShow.innerText = `${show.name}`;
+    showsSelection.appendChild(optionForShow);
+
     const oneShowCont = document.createElement("div");
     oneShowCont.id = "oneShowCont";
     showsContainer.appendChild(oneShowCont);
@@ -187,30 +202,78 @@ function makeShowPge() {
     const showImg = document.createElement("img");
     oneShowCont.appendChild(showImg);
     const showP = document.createElement("p");
+
     oneShowCont.appendChild(showP);
     if (show.image !== null) {
       showImg.src = show.image.original;
     }
     showImg.id = "image";
-    showP.innerText = show.summary;
+    showP.innerText = show.summary
+      .replace(/<p>/g, "")
+      .replace(/<\/p>/g, "")
+      .replace(/<b>/g, "")
+      .replace(/<i>/g, "")
+      .replace(/<\/i>/g, "");
+
     showP.id = "p";
     showName.innerText = show.name;
     showName.id = show.id;
     showName.href = "#";
-    //console.log(showName.id);
     searchSelectDiv.style.display = "none";
-    //let cc= show.id;
-
     showName.addEventListener("click", getEpisodes);
     function getEpisodes(e) {
       showsContainer.innerHTML = "";
       divCont.style.display = "flex";
-
       searchSelectDiv.style.display = "flex";
       makePageForEpisodes(e.target.id);
       searchSelectDiv.children[3].innerHTML = "";
-      selectShow.style.display="none";
+      selectShow.style.display = "none";
+      searchSelectShows.style.display = "none";
     }
   });
+
+  showSearchBar.addEventListener("keyup", (e) => {
+    const searchShowTerm = e.target.value.toUpperCase().trim();
+    const filter = showsList.filter((show1) => {
+      if (show1.summary !== null) {
+        return (
+          show1.name.toUpperCase().includes(searchShowTerm) ||
+          show1.summary.toUpperCase().includes(searchShowTerm)
+        );
+      }
+    });
+
+    hShows.innerText = `Display ${filter.length}/${showsList.length} shows`;
+    console.log(oneShowCont);
+    Array.from(oneShowCont).forEach((show) => {
+      if (
+        !show.lastChild.innerText.toUpperCase().includes(searchShowTerm) &
+        !show.firstChild.innerText.toUpperCase().includes(searchShowTerm)
+      ) {
+        show.style.display = "none";
+      } else {
+        show.style.display = "flex";
+      }
+      console.log(show);
+    });
+  });
+
+  showsSelection.addEventListener("click", showSelection);
+
+  function showSelection(e) {
+    Array.from(oneShowCont).forEach((show) => {
+      let innerT = show.firstChild.innerText.toUpperCase();
+
+      if (
+        (e.target.value.toUpperCase() !== innerT) &
+        (e.target.value !== "default")
+      ) {
+        show.style.display = "none";
+      } else {
+        show.style.display = "flex";
+      }
+    });
+    hShows.innerHTML="";
+  }
 }
 window.onload = makeShowPge();
