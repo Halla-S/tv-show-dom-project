@@ -144,7 +144,12 @@ function makePageForEpisodes(id) {
             episode.style.display = "flex";
           }
         });
-        h6.innerHTML="";
+        if (e.target.value === "Show all episodes") {
+          //hShows.display = "block";
+          h6.innerText = `Display ${episodelist.length}/${episodelist.length} episodes`;
+        } else {
+          h6.innerHTML = "";
+        }
       }
     });
 
@@ -177,14 +182,16 @@ function changeShow(e) {
   if (e.target.innerText === "select a show") {
     makePageForEpisodes(e.target.value);
   }
-
-  
 }
 const showsContainer = document.getElementById("showsContainer");
 let showsList = getAllShows();
 function makeShowPge() {
+
   let showSearchBar = document.getElementById("showsSearchBar");
   let showsSelection = document.getElementById("selectShow");
+  let hShows = document.getElementById("hShows");
+  hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
+  
   let defaultSelect = document.getElementById("default");
   showsList.sort((a, b) => a.name.localeCompare(b.name));
   showsList.forEach((show) => {
@@ -232,6 +239,7 @@ function makeShowPge() {
     }
   });
 
+
   showSearchBar.addEventListener("keyup", (e) => {
     const searchShowTerm = e.target.value.toUpperCase().trim();
     const filter = showsList.filter((show1) => {
@@ -254,7 +262,6 @@ function makeShowPge() {
       } else {
         show.style.display = "flex";
       }
-      console.log(show);
     });
   });
 
@@ -272,8 +279,15 @@ function makeShowPge() {
       } else {
         show.style.display = "flex";
       }
+      if(e.target.value==="default"){
+        //hShows.display = "block";
+        hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
+      }
+      else{
+        hShows.innerHTML = "";
+      }
     });
-    hShows.innerHTML="";
+    //hShows.innerHTML = "";
   }
 }
 window.onload = makeShowPge();

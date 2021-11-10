@@ -12,7 +12,7 @@ body{
   background-color: rgb(5, 55, 61, 0.746);
 }
 
-#container {
+/* #container {
   display: flex;
   flex-direction: column;
   width: 40%;
@@ -21,7 +21,7 @@ body{
   background-color: rgb(170, 209, 207);
   border-radius: 10px;
   height: 50em;
-}
+} */
 img {
   display: block;
   margin: 5% auto 5% auto;
@@ -69,7 +69,7 @@ p{
   
   
 }
-#oneShowCont{
+#oneShowCont,#container{
   margin-top: 4em;
   display: flex;
   flex-direction: column;
@@ -78,6 +78,7 @@ p{
   width:30%;
   height: 50em;
   background-color: rgb(170, 209, 207);
+  border-radius: 5px;;
   
 }
 #oneShowCont a{
