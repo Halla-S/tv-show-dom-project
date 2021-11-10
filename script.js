@@ -230,6 +230,8 @@ function makeShowPge() {
       .replace(/<p>/g, "")
       .replace(/<\/p>/g, "")
       .replace(/<b>/g, "")
+      .replace(/<\/b>/g, "")
+      .replace(/<br \/>/g, "")
       .replace(/<i>/g, "")
       .replace(/<\/i>/g, "");
 
