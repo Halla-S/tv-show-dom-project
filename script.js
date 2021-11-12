@@ -9,26 +9,20 @@ function setup() {
 
 const rootElem = document.getElementById("root");
 const divCont = document.getElementById("divCont");
-
 const selectShow = document.createElement("select");
 const showOption1 = document.createElement("option");
 showOption1.innerText = "select a show";
 const h5 = document.createElement("h5");
 const searchSelectDiv = document.getElementById("searchSelect");
 const searchSelectShows = document.getElementById("searchSelect2");
-
 const goto = document.createElement("a");
 goto.innerText = "Back to shows";
 goto.href = "#";
-
 searchSelectDiv.appendChild(goto);
-
 searchSelectDiv.appendChild(h5);
-
 searchSelectDiv.appendChild(selectShow);
 selectShow.appendChild(showOption1);
 const select = document.createElement("select");
-
 const searchbar = document.createElement("input");
 searchbar.id = "searchbar";
 searchbar.placeholder = "search for an episode";
@@ -37,7 +31,6 @@ searchbar.name = "searchbar";
 
 function makePageForEpisodes(id) {
   searchSelectDiv.appendChild(select);
-
   searchSelectDiv.appendChild(searchbar);
 
   fetch("https://api.tvmaze.com/shows/" + id + "/episodes")
@@ -76,7 +69,7 @@ function makePageForEpisodes(id) {
 
         container.setAttribute("id", "container");
 
-        const episodeName = document.createElement("h4");
+        const episodeName = document.createElement("h3");
 
         episodeName.innerText = `${episode.name}-${seasonNum}${episodeNum}`;
 
@@ -102,6 +95,7 @@ function makePageForEpisodes(id) {
       });
 
       searchbar.addEventListener("keyup", (e) => {
+        //search for episodes
         const searchTerm = e.target.value.toUpperCase().trim();
         const filter = episodelist.filter((episode1) => {
           if (episode1.summary !== null) {
@@ -112,7 +106,7 @@ function makePageForEpisodes(id) {
           }
         });
 
-        h5.innerText = `Display ${filter.length}/${episodelist.length} episodes`;
+        h3.innerText = `Display ${filter.length}/${episodelist.length} episodes`; //search for episodes result
         Array.from(container).forEach((episode) => {
           if (
             !episode.lastChild.innerText.toUpperCase().includes(searchTerm) &
@@ -125,7 +119,7 @@ function makePageForEpisodes(id) {
         });
       });
 
-      select.addEventListener("click", selectEpisode);
+      select.addEventListener("click", selectEpisode); //select an episode
       function selectEpisode(e) {
         Array.from(container).forEach((episode) => {
           let inner = episode.firstChild.innerText.toUpperCase();
@@ -146,10 +140,11 @@ function makePageForEpisodes(id) {
         } else {
           h5.innerHTML = "";
         }
+        searchSelectShows.style.display = "none";
       }
     });
 
-  goto.addEventListener("click", goToShows);
+  goto.addEventListener("click", goToShows); //to go back to the shows page
   function goToShows(e) {
     divCont.innerHTML = "";
     searchSelectDiv.style.display = "none";
@@ -171,7 +166,7 @@ function showList(listOfshows) {
     showoption.value = oneShow.id;
   });
 }
-selectShow.addEventListener("click", changeShow);
+selectShow.addEventListener("click", changeShow); //this is to select a show when setup() is onload
 function changeShow(e) {
   if (e.target.innerText !== "select a show") {
     select.innerHTML = "";
@@ -185,6 +180,7 @@ function changeShow(e) {
 const showsContainer = document.getElementById("showsContainer");
 let showsList = getAllShows();
 function makeShowPge() {
+  // make a page for the shows
   let showSearchBar = document.getElementById("showsSearchBar");
   let showsSelection = document.getElementById("selectShow");
   let SelectAShow = document.createElement("option");
@@ -192,11 +188,11 @@ function makeShowPge() {
   SelectAShow.innerText = "Select a Show";
   SelectAShow.value = "showAll";
 
-  let hShows = document.getElementById("hShows");
+  let hShows = document.getElementById("hShows"); // the name of the show
   hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
 
   let defaultSelect = document.getElementById("default");
-  showsList.sort((a, b) => a.name.localeCompare(b.name));
+  showsList.sort((a, b) => a.name.localeCompare(b.name)); //to sort the list items in the alphabetical order
   showsList.forEach((show) => {
     const optionForShow = document.createElement("option");
 
@@ -218,7 +214,7 @@ function makeShowPge() {
     if (show.image !== null) {
       showImg.src = show.image.original;
     }
-    //showImg.id = "image";
+
     showP.innerText = show.summary
       .replace(/<p>/g, "")
       .replace(/<\/p>/g, "")
@@ -256,7 +252,7 @@ function makeShowPge() {
       }
     });
 
-    hShows.innerText = `Display ${filter.length}/${showsList.length} shows`;
+    hShows.innerText = `Display ${filter.length}/${showsList.length} shows`; //the number of shows that are found
     console.log(oneShowCont);
     Array.from(oneShowCont).forEach((show) => {
       if (
@@ -270,7 +266,7 @@ function makeShowPge() {
     });
   });
 
-  showsSelection.addEventListener("click", showSelection);
+  showsSelection.addEventListener("click", showSelection); //select a show from the list when makeShowPge()is onload
 
   function showSelection(e) {
     Array.from(oneShowCont).forEach((show) => {

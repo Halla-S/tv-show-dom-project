@@ -43,10 +43,8 @@ select {
   height: 3.5em;
   background-color: rgb(225, 245, 245);
 }
-h6 {
-  display: block;
-}
-#container h4 {
+
+#container h3 {
   text-align: center;
 }
 p {
@@ -66,7 +64,7 @@ p {
   display: flex;
   flex-direction: column;
   margin: 1em 0.1em;
-  width: 30%;
+  width: 25%;
   background-color: rgb(170, 209, 207);
   border-radius: 5px;
 }
@@ -80,7 +78,7 @@ p {
   text-align: center;
   color: black;
   text-decoration: none;
-  font-size: large;
+  font-size: x-large;
 }
 #searchSelect a {
   border-style: solid;
