@@ -13,28 +13,32 @@ const divCont = document.getElementById("divCont");
 const selectShow = document.createElement("select");
 const showOption1 = document.createElement("option");
 showOption1.innerText = "select a show";
-const h6 = document.createElement("h6");
+const h5 = document.createElement("h5");
 const searchSelectDiv = document.getElementById("searchSelect");
 const searchSelectShows = document.getElementById("searchSelect2");
 
-searchSelectDiv.appendChild(h6);
+const goto = document.createElement("a");
+goto.innerText = "Back to shows";
+goto.href = "#";
+
+ searchSelectDiv.appendChild(goto);
+
+searchSelectDiv.appendChild(h5);
 
 searchSelectDiv.appendChild(selectShow);
 selectShow.appendChild(showOption1);
 const select = document.createElement("select");
-select.placeholder = "select";
-const goto = document.createElement("a");
-goto.innerText = "Go to shows";
-goto.href = "#";
-goto.style.textDecoration = "none";
+// select.placeholder = "select";
+
 const searchbar = document.createElement("input");
 searchbar.id = "searchbar";
-searchbar.placeholder = "search";
+searchbar.placeholder = "search for an episode";
 searchbar.type = "text";
 searchbar.name = "searchbar";
 
+
 function makePageForEpisodes(id) {
-  searchSelectDiv.appendChild(goto);
+  
 
   searchSelectDiv.appendChild(select);
 
@@ -48,7 +52,7 @@ function makePageForEpisodes(id) {
       throw `${response.status} ${response.statusText}`;
     })
     .then(function (episodelist) {
-      h6.innerText = `Display ${episodelist.length} /${episodelist.length} episodes`;
+      h5.innerText = `Display ${episodelist.length} /${episodelist.length} episodes`;
       const showAllOption = document.createElement("option");
       showAllOption.value = "Show all episodes";
       showAllOption.innerText = "Show all episodes";
@@ -76,9 +80,9 @@ function makePageForEpisodes(id) {
 
         container.setAttribute("id", "container");
 
-        const h5 = document.createElement("h5");
+        const episodeName = document.createElement("h4");
 
-        h5.innerText = `${episode.name}-${seasonNum}${episodeNum}`;
+        episodeName.innerText = `${episode.name}-${seasonNum}${episodeNum}`;
 
         const img = document.createElement("img");
         if (episode.image !== null) {
@@ -96,7 +100,7 @@ function makePageForEpisodes(id) {
 
         divCont.appendChild(container);
 
-        container.appendChild(h5);
+        container.appendChild(episodeName);
         container.appendChild(img);
         container.appendChild(p);
 
@@ -115,7 +119,7 @@ function makePageForEpisodes(id) {
           }
         });
 
-        h6.innerText = `Display ${filter.length}/${episodelist.length} episodes`;
+        h5.innerText = `Display ${filter.length}/${episodelist.length} episodes`;
         Array.from(container).forEach((episode) => {
           if (
             !episode.lastChild.innerText.toUpperCase().includes(searchTerm) &
@@ -146,12 +150,13 @@ function makePageForEpisodes(id) {
         });
         if (e.target.value === "Show all episodes") {
           //hShows.display = "block";
-          h6.innerText = `Display ${episodelist.length}/${episodelist.length} episodes`;
+          h5.innerText = `Display ${episodelist.length}/${episodelist.length} episodes`;
         } else {
-          h6.innerHTML = "";
+          h5.innerHTML = "";
         }
       }
     });
+   
 
   goto.addEventListener("click", goToShows);
   function goToShows(e) {
@@ -219,13 +224,14 @@ function makeShowPge() {
     oneShowCont.appendChild(showName);
     const showImg = document.createElement("img");
     oneShowCont.appendChild(showImg);
+    showImg.id ="image";
     const showP = document.createElement("p");
 
     oneShowCont.appendChild(showP);
     if (show.image !== null) {
       showImg.src = show.image.original;
     }
-    showImg.id = "image";
+    //showImg.id = "image";
     showP.innerText = show.summary
       .replace(/<p>/g, "")
       .replace(/<\/p>/g, "")
