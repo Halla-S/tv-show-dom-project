@@ -12,14 +12,14 @@ const divCont = document.getElementById("divCont");
 const selectShow = document.createElement("select");
 const showOption1 = document.createElement("option");
 showOption1.innerText = "select a show";
-const h5 = document.createElement("h5");
+const h3 = document.createElement("h3");
 const searchSelectDiv = document.getElementById("searchSelect");
 const searchSelectShows = document.getElementById("searchSelect2");
 const goto = document.createElement("a");
 goto.innerText = "Back to shows";
 goto.href = "#";
 searchSelectDiv.appendChild(goto);
-searchSelectDiv.appendChild(h5);
+searchSelectDiv.appendChild(h3);
 searchSelectDiv.appendChild(selectShow);
 selectShow.appendChild(showOption1);
 const select = document.createElement("select");
@@ -41,7 +41,7 @@ function makePageForEpisodes(id) {
       throw `${response.status} ${response.statusText}`;
     })
     .then(function (episodelist) {
-      h5.innerText = `Display ${episodelist.length} /${episodelist.length} episodes`;
+      h3.innerText = `Display ${episodelist.length} /${episodelist.length} episodes`;
       const showAllOption = document.createElement("option");
       showAllOption.value = "Show all episodes";
       showAllOption.innerText = "Show all episodes";
@@ -119,7 +119,7 @@ function makePageForEpisodes(id) {
         });
       });
 
-      select.addEventListener("click", selectEpisode); //select an episode
+      select.addEventListener("click", selectEpisode);                      //select an episode
       function selectEpisode(e) {
         Array.from(container).forEach((episode) => {
           let inner = episode.firstChild.innerText.toUpperCase();
@@ -136,9 +136,9 @@ function makePageForEpisodes(id) {
           }
         });
         if (e.target.value === "Show all episodes") {
-          h5.innerText = `Display ${episodelist.length}/${episodelist.length} episodes`;
+          h3.innerText = `Display ${episodelist.length}/${episodelist.length} episodes`;
         } else {
-          h5.innerHTML = "";
+          h3.innerHTML = "";
         }
         searchSelectShows.style.display = "none";
       }
@@ -179,8 +179,7 @@ function changeShow(e) {
 }
 const showsContainer = document.getElementById("showsContainer");
 let showsList = getAllShows();
-function makeShowPge() {
-  // make a page for the shows
+function makeShowPge() {                                   // make a page for the shows
   let showSearchBar = document.getElementById("showsSearchBar");
   let showsSelection = document.getElementById("selectShow");
   let SelectAShow = document.createElement("option");
@@ -188,7 +187,7 @@ function makeShowPge() {
   SelectAShow.innerText = "Select a Show";
   SelectAShow.value = "showAll";
 
-  let hShows = document.getElementById("hShows"); // the name of the show
+  let hShows = document.getElementById("hShows");      // the name of the show
   hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
 
   let defaultSelect = document.getElementById("default");
