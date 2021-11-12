@@ -11,17 +11,6 @@ body {
   background-color: rgb(170, 209, 207);
 }
 
-/* #container {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  align-items: center;
-  margin-top: 5%;
-  background-color: rgb(170, 209, 207);
-  border-radius: 10px;
-  height: 50em;
-} */
-
 img {
   display: block;
   margin: 5% auto 5% auto;
@@ -44,14 +33,14 @@ img {
 }
 #searchbar,
 #showsSearchBar {
-  height: 1.5em;
+  height: 3.5em;
   border-radius: 5px;
   border-style: none;
   background-color: rgb(227, 243, 243);
 }
 select {
   border-radius: 8px;
-  height: 2em;
+  height: 3.5em;
   background-color: rgb(225, 245, 245);
 }
 h6 {
@@ -99,15 +88,14 @@ p {
   text-decoration: none;
   padding: 0.3em;
   border-radius: 5px;
-background-color:rgb(5, 55, 61, 0.746);
-color:rgb(170, 209, 207) ;
+  background-color: rgb(5, 55, 61, 0.746);
+  color: rgb(170, 209, 207);
 }
 #searchSelect a:hover {
   color: black;
-  background-color:rgb(170, 209, 207) ;
+  background-color: rgb(170, 209, 207);
 }
-#oneShowCont a:hover{
-  background-color:rgb(5, 55, 61, 0.746); 
-  color:rgb(170, 209, 207) ;
-
+#oneShowCont a:hover {
+  background-color: rgb(5, 55, 61, 0.746);
+  color: rgb(170, 209, 207);
 }

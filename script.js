@@ -21,14 +21,13 @@ const goto = document.createElement("a");
 goto.innerText = "Back to shows";
 goto.href = "#";
 
- searchSelectDiv.appendChild(goto);
+searchSelectDiv.appendChild(goto);
 
 searchSelectDiv.appendChild(h5);
 
 searchSelectDiv.appendChild(selectShow);
 selectShow.appendChild(showOption1);
 const select = document.createElement("select");
-// select.placeholder = "select";
 
 const searchbar = document.createElement("input");
 searchbar.id = "searchbar";
@@ -36,10 +35,7 @@ searchbar.placeholder = "search for an episode";
 searchbar.type = "text";
 searchbar.name = "searchbar";
 
-
 function makePageForEpisodes(id) {
-  
-
   searchSelectDiv.appendChild(select);
 
   searchSelectDiv.appendChild(searchbar);
@@ -103,9 +99,6 @@ function makePageForEpisodes(id) {
         container.appendChild(episodeName);
         container.appendChild(img);
         container.appendChild(p);
-
-        //console.log(container);
-        //console.log(typeof container);
       });
 
       searchbar.addEventListener("keyup", (e) => {
@@ -149,14 +142,12 @@ function makePageForEpisodes(id) {
           }
         });
         if (e.target.value === "Show all episodes") {
-          //hShows.display = "block";
           h5.innerText = `Display ${episodelist.length}/${episodelist.length} episodes`;
         } else {
           h5.innerHTML = "";
         }
       }
     });
-   
 
   goto.addEventListener("click", goToShows);
   function goToShows(e) {
@@ -164,12 +155,11 @@ function makePageForEpisodes(id) {
     searchSelectDiv.style.display = "none";
     searchSelectShows.style.display = "flex";
     console.log(searchSelectShows);
-    //searchSelectShows.innerHTML ="";
+
     console.log(showsContainer);
     showsContainer.innerHTML = "";
     searchSelectShows.children[1].innerHTML = "";
     makeShowPge();
-    
   }
 }
 function showList(listOfshows) {
@@ -195,19 +185,16 @@ function changeShow(e) {
 const showsContainer = document.getElementById("showsContainer");
 let showsList = getAllShows();
 function makeShowPge() {
-
   let showSearchBar = document.getElementById("showsSearchBar");
   let showsSelection = document.getElementById("selectShow");
   let SelectAShow = document.createElement("option");
   showsSelection.appendChild(SelectAShow);
-  SelectAShow.innerText ="Select a Show";
-  SelectAShow.value ="showAll";
-
-  
+  SelectAShow.innerText = "Select a Show";
+  SelectAShow.value = "showAll";
 
   let hShows = document.getElementById("hShows");
   hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
-  
+
   let defaultSelect = document.getElementById("default");
   showsList.sort((a, b) => a.name.localeCompare(b.name));
   showsList.forEach((show) => {
@@ -224,7 +211,7 @@ function makeShowPge() {
     oneShowCont.appendChild(showName);
     const showImg = document.createElement("img");
     oneShowCont.appendChild(showImg);
-    showImg.id ="image";
+    showImg.id = "image";
     const showP = document.createElement("p");
 
     oneShowCont.appendChild(showP);
@@ -257,7 +244,6 @@ function makeShowPge() {
       searchSelectShows.style.display = "none";
     }
   });
-
 
   showSearchBar.addEventListener("keyup", (e) => {
     const searchShowTerm = e.target.value.toUpperCase().trim();
@@ -299,13 +285,11 @@ function makeShowPge() {
         show.style.display = "flex";
       }
       if (e.target.value === "showAll") {
-        //hShows.display = "block";
         hShows.innerText = `Display ${showsList.length}/${showsList.length} shows`;
       } else {
         hShows.innerHTML = "";
       }
     });
-    //hShows.innerHTML = "";
   }
 }
 window.onload = makeShowPge();
