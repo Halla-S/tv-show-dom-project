@@ -3,17 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | My Name (My GitHub username)</title>
+    <title>TV Show Project | Halla (Halla-S)</title>
     <link href="style.css" rel="stylesheet" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
     <div id="root">
+      <div id="searchSelect"></div>
+      <div id="divCont"></div>
+    </div>
+    <div id="root2">
+      <div id="searchSelect2">
+        <input
+          id="showsSearchBar"
+          name="showsSearchBar"
+          placeholder="Search for a show"
+          type="text"
+        />
+        <select id="selectShow">
+          <!-- <option id="default" value = "default" selected >All Of The Shows</option> -->
+        </select>
+        <h3 id="hShows"></h3>
+      </div>
+      <div id="showsContainer"></div>
     </div>
 
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
+    <script src="shows.js"></script>
 
     <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>
